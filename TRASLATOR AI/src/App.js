@@ -1,22 +1,31 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import AuthProvider from './components/AuthProvider'; // Asegúrate de que la ruta del archivo sea correcta
+import AuthProvider from './components/AuthProvider';
 import Login from './components/Login';
 import Register from './components/Register';
 import Translator from './components/Translator';
+import ProtectedRoute from './components/ProtectedRoute';
 
-function App() {
+const App = () => {
   return (
-    <Router>
-      <AuthProvider> {/* Asegúrate de envolver todas tus rutas con AuthProvider */}
+    <AuthProvider>
+      <Router>
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/translator" element={<Translator />} />
+          <Route
+            path="/translator"
+            element={
+              <ProtectedRoute>
+                <Translator />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="*" element={<Login />} />
         </Routes>
-      </AuthProvider>
-    </Router>
+      </Router>
+    </AuthProvider>
   );
-}
+};
 
 export default App;

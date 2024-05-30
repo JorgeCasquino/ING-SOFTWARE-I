@@ -1,19 +1,16 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { AuthContext } from './AuthProvider';
 import { HfInference } from "@huggingface/inference";
-import { auth } from '../firebase/firebaseConfig';
-import { signOut } from 'firebase/auth';
-import { Link, useNavigate } from 'react-router-dom';
+
 
 const Translator = () => {
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser, handleLogout } = useContext(AuthContext);
   const [inputText, setInputText] = useState('');
   const [sourceLanguage, setSourceLanguage] = useState('');
   const [targetLanguage, setTargetLanguage] = useState('');
   const [translationResult, setTranslationResult] = useState('');
   const [isTranslating, setIsTranslating] = useState(false);
   const [userName, setUserName] = useState('');
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (currentUser) {
@@ -113,17 +110,9 @@ const Translator = () => {
 
   ];
 
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      navigate('/login');
-    } catch (error) {
-      console.error('Error whit logout:', error);
-    }
-  };
 
   if (!currentUser) {
-    return <div className="translator-container">Auth Required <Link to="/login">Sign in</Link>.</div>;
+    return <div className="translator-container">Auth Required</div>;
   }
 
   return (

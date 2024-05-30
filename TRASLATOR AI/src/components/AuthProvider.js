@@ -14,15 +14,13 @@ const AuthProvider = ({ children }) => {
       setLoading(false);
     });
 
-    // Cleanup subscription on unmount
     return () => unsubscribe();
   }, []);
 
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      // Redirige a la página de inicio de sesión después del cierre de sesión
-      window.location.href = '/login';
+      window.location.href = '/login'; // Redirigir a la página de inicio de sesión después del cierre de sesión
     } catch (error) {
       console.error('Error al cerrar sesión:', error);
     }

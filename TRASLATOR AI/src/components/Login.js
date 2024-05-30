@@ -31,7 +31,7 @@ const Login = () => {
   return (
     <div className="auth-container">
       <div className="banner">
-        <h1>Translator with AI</h1>
+        <h1>LinguaAI</h1>
       </div>
       <h2>Login</h2>
       <form onSubmit={handleLogin}>
@@ -54,7 +54,7 @@ const Login = () => {
       <button onClick={handleGoogleLogin}>Login with Google</button>
       {error && <p>{error}</p>}
       <div className="register-link">
-        <p>New user <Link to="/register">Register</Link> whit email now.</p>
+        <p>New user? <Link to="/register">Register</Link></p>
       </div>
     </div>
   );
