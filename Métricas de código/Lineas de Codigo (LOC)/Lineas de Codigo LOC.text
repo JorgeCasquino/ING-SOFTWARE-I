@@ -1,0 +1,44 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{natbib}
+
+\title{Evaluación de Software mediante la Métrica de Líneas de Código (LOC)}
+\author{Jorge Romel Casquino Ticona}
+\date{Junio 2024}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Las Líneas de Código (LOC) son una métrica ampliamente utilizada en la evaluación de software. Este documento explora la definición, aplicaciones, limitaciones y estudios recientes relacionados con la métrica LOC. Además, se presentan estudios que investigan la relación entre la legibilidad del código y la complejidad del software.
+\end{abstract}
+
+\section{Introducción}
+Las Líneas de Código (LOC), también conocidas como líneas de código fuente (SLOC), son una medida que representa el tamaño de un sistema de software contando el número de líneas en su código fuente. Esta métrica es útil para estimar costos, tiempos de desarrollo y medir la productividad del proyecto \citep{nunez2017}.
+
+\section{Definición y Tipos de LOC}
+La métrica LOC incluye todas las líneas de código, comentarios y declaraciones en blanco. Los tipos principales de LOC son:
+\begin{itemize}
+    \item \textbf{Total LOC}: Incluye todas las líneas del código fuente.
+    \item \textbf{Código Fuente LOC}: Solo las líneas de código ejecutable.
+    \item \textbf{Comentarios LOC}: Líneas que contienen comentarios.
+    \item \textbf{Líneas en Blanco}: Líneas sin código ni comentarios.
+\end{itemize}
+
+\section{Aplicaciones y Limitaciones}
+Las métricas LOC se utilizan para estimar costos y tiempo de desarrollo, medir la productividad y seguir el progreso del proyecto. Sin embargo, no indican la calidad ni la complejidad del código y pueden fomentar un crecimiento innecesario del mismo. Por lo tanto, deben complementarse con otras métricas para una evaluación completa \citep{tahir2021}.
+
+\section{Estudios Recientes}
+Un estudio sistemático sobre las métricas del código fuente analiza diversas métricas, incluyendo LOC, y su aplicación en la predicción de fallos, pruebas y refactorización \citep{nunez2017}. Otro estudio estadístico investiga la relevancia de las métricas de LOC en proyectos de software, explorando cómo afectan a la estimación de costos y tiempos \citep{tahir2021}.
+
+Además, se ha investigado la relación entre la legibilidad del código y la complejidad del software, utilizando métricas de legibilidad y algoritmos de aprendizaje automático. Este estudio muestra cómo estos atributos afectan mutuamente la calidad del software \citep{darwish2023}.
+
+\section{Conclusión}
+A pesar de sus limitaciones, LOC sigue siendo una métrica útil y ampliamente utilizada. Se recomienda complementar esta métrica con otras para obtener una evaluación más completa de la calidad y complejidad del software.
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}

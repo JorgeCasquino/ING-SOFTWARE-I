@@ -1,0 +1,36 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{natbib}
+
+\title{Evaluación de Software mediante Métricas de Eficiencia}
+\author{Casquino Ticona Jorge Romel}
+\date{Junio 2024}
+
+\begin{document}
+
+\maketitle
+\section{Introducción}
+En la ingeniería de software, medir la eficiencia es crucial para entender el rendimiento y la productividad de los equipos de desarrollo. Las métricas de eficiencia pueden ayudar a identificar cuellos de botella y áreas de mejora en los procesos de desarrollo \citep{almeida2023}.
+
+\section{Definición y Tipos de Métricas de Eficiencia}
+Las métricas de eficiencia incluyen diversas medidas que evalúan diferentes aspectos del proceso de desarrollo de software:
+\begin{itemize}
+    \item \textbf{Tiempo de Ciclo (Cycle Time)}: Mide el tiempo desde que se inicia una tarea hasta que se entrega en producción. Un menor tiempo de ciclo indica un proceso de desarrollo más eficiente \citep{cloudbees2023}.
+    \item \textbf{Tiempo en Áreas de Enfoque (Time Spent by Area)}: Evalúa cómo se distribuye el tiempo de los desarrolladores entre diferentes actividades, como desarrollo de nuevas funcionalidades, corrección de errores, tareas de seguridad, etc. \citep{cloudbees2023}.
+    \item \textbf{Trabajo Planificado vs. No Planificado (Planned vs. Unplanned Work)}: Compara el tiempo dedicado a tareas planificadas frente a tareas imprevistas, lo cual es crucial para entender la estabilidad y eficiencia del proceso de desarrollo \citep{cloudbees2023}.
+\end{itemize}
+
+\section{Aplicaciones y Limitaciones}
+Estas métricas se utilizan para evaluar la eficiencia de los equipos de desarrollo y el rendimiento de los sistemas en la nube. Sin embargo, es importante utilizarlas en conjunto y en el contexto adecuado para evitar incentivos perversos y malas interpretaciones \citep{xu2023}.
+
+\section{Estudios Recientes}
+Un estudio reciente compara la fiabilidad de la estimación, la productividad y las métricas de tasa de defectos entre enfoques ágiles tradicionales y métodos basados en modelos \citep{huss2023}. Otro estudio analiza la escalabilidad y el rendimiento de servicios de software basados en la nube, destacando la importancia de la capacidad de respuesta y la gestión eficiente de recursos \citep{gao2023}.
+
+\section{Conclusión}
+Las métricas de eficiencia proporcionan una visión integral del rendimiento de los equipos de desarrollo y la calidad del software. Complementar estas métricas con otras evaluaciones es esencial para una gestión efectiva del desarrollo de software.
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}
