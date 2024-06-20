@@ -1,7 +1,7 @@
 // src/components/Translator.js
 import React, { useState } from 'react';
 import axios from 'axios';
-import './styles/styles.css'; // Asegúrate de importar tu archivo CSS
+import 'src\styles'; // Ajusta la ruta a la carpeta correcta
 
 const Translator = () => {
   const [prompt, setPrompt] = useState('');
