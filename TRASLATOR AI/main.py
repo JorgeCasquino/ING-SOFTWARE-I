@@ -33,5 +33,3 @@ async def generate_text(prompt: TextPrompt):
     result = response.json()
     translated_text = result[0]['generated_text']
     return {"text": translated_text}
-
-# Ejecuta el servidor con: uvicorn main:app --reload
