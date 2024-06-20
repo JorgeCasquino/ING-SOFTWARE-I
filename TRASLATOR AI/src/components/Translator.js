@@ -10,7 +10,7 @@ const Translator = () => {
   const [status, setStatus] = useState('');
 
   const handleTranslate = async () => {
-    setStatus('translating');
+    setStatus('translating...');
     setResult('');
     try {
       const response = await axios.post('http://localhost:8000/generate/', {
@@ -22,7 +22,7 @@ const Translator = () => {
       setStatus('');
     } catch (error) {
       console.error('Error al traducir:', error);
-      setStatus('translation error',error);
+      setStatus('translation error');
     }
   };
 
