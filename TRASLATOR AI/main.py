@@ -1,7 +1,7 @@
 # main.py
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from transformers import T5ForConditionalGeneration, T5Tokenizer
+import requests
 
 class TextPrompt(BaseModel):
     prompt: str
@@ -9,14 +9,29 @@ class TextPrompt(BaseModel):
     target_language: str
 
 app = FastAPI()
-model_name = "t5-small"
-model = T5ForConditionalGeneration.from_pretrained(model_name)
-tokenizer = T5Tokenizer.from_pretrained(model_name)
+
+HUGGINGFACE_API_URL = "https://api-inference.huggingface.co/models/t5-small"  # Puedes cambiar el modelo aquí
+HUGGINGFACE_API_KEY = "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"  # Reemplaza con tu API key
+
+headers = {
+    "Authorization": f"Bearer {HUGGINGFACE_API_KEY}"
+}
 
 @app.post("/generate/")
 async def generate_text(prompt: TextPrompt):
     input_text = f"translate {prompt.source_language} to {prompt.target_language}: {prompt.prompt}"
-    input_ids = tokenizer.encode(input_text, return_tensors="pt")
-    outputs = model.generate(input_ids)
-    text = tokenizer.decode(outputs[0], skip_special_tokens=True)
-    return {"text": text}
+    
+    response = requests.post(
+        HUGGINGFACE_API_URL,
+        headers=headers,
+        json={"inputs": input_text}
+    )
+
+    if response.status_code != 200:
+        raise HTTPException(status_code=response.status_code, detail=response.json())
+    
+    result = response.json()
+    translated_text = result[0]['generated_text']
+    return {"text": translated_text}
+
+# Ejecuta el servidor con: uvicorn main:app --reload
