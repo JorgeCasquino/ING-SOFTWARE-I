@@ -18,11 +18,17 @@ const Translator = () => {
         source_language: sourceLanguage,
         target_language: targetLanguage
       });
+      console.log('Response data:', response.data);
       setResult(response.data.text);
       setStatus('');
     } catch (error) {
       console.error('Error al traducir:', error);
-      setStatus('translation error');
+      if (error.response && error.response.status === 503) {
+        setStatus('Model is loading, please try again in a few seconds...');
+        setTimeout(handleTranslate, 20000);  // Intentar nuevamente después de 20 segundos
+      } else {
+        setStatus('translation error');
+      }
     }
   };
 
