@@ -24,8 +24,8 @@ def translate_text(input_text, source_lang, target_lang):
     translated_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
     return translated_text
 
-@app.route('/generate/', methods=['POST'])
-def generate():
+@app.route('/translate', methods=['POST'])
+def translate():
     data = request.json
     prompt = data.get('prompt')
     source_language = data.get('source_language')

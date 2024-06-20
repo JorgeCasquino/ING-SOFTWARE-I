@@ -13,7 +13,7 @@ const Translator = () => {
     setStatus('translating...');
     setResult('');
     try {
-      const response = await axios.post('http://localhost:8000', {
+      const response = await axios.post('http://localhost:8000/translate', {
         prompt: prompt,
         source_language: sourceLanguage,
         target_language: targetLanguage
