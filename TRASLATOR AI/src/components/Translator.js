@@ -22,7 +22,7 @@ const Translator = () => {
       setStatus('');
     } catch (error) {
       console.error('Error al traducir:', error);
-      setStatus('translation error');
+      setStatus('translation error',error);
     }
   };
 
