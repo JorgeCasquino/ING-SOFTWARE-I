@@ -1,42 +1,44 @@
-# main.py
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-import requests
-import time
+from flask import Flask, request, jsonify
+from transformers import MarianTokenizer, MarianMTModel
 
-class TextPrompt(BaseModel):
-    prompt: str
-    source_language: str
-    target_language: str
+app = Flask(__name__)
 
-app = FastAPI()
+marian_tokenizer = MarianTokenizer.from_pretrained('Helsinki-NLP/opus-mt-en-es')
+marian_model = MarianMTModel.from_pretrained('Helsinki-NLP/opus-mt-en-es')
 
-HUGGINGFACE_API_URL = "https://api-inference.huggingface.co/models/t5-small"
-HUGGINGFACE_API_KEY = "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"
-
-headers = {
-    "Authorization": f"Bearer {HUGGINGFACE_API_KEY}"
+language_models = {
+    ('English', 'Spanish'): ('Helsinki-NLP/opus-mt-en-es', 'Helsinki-NLP/opus-mt-es-en'),
+    # Añadir más combinaciones de idiomas según sea necesario
 }
 
-@app.post("/generate/")
-async def generate_text(prompt: TextPrompt):
-    input_text = f"translate {prompt.source_language} to {prompt.target_language}: {prompt.prompt}"
-    
-    try:
-        response = requests.post(
-            HUGGINGFACE_API_URL,
-            headers=headers,
-            json={"inputs": input_text}
-        )
-        response.raise_for_status()  # Lanza un error para códigos de estado HTTP 4xx/5xx
+def translate_text(input_text, source_lang, target_lang):
+    model_name = language_models.get((source_lang, target_lang))
+    if not model_name:
+        return None
 
-        result = response.json()
-        if "error" in result and "currently loading" in result["error"]:
-            raise HTTPException(status_code=503, detail="Model is loading, please try again later.")
-        
-        translated_text = result[0]['generated_text']
-        return {"text": translated_text}
+    tokenizer = MarianTokenizer.from_pretrained(model_name[0])
+    model = MarianMTModel.from_pretrained(model_name[0])
 
-    except requests.RequestException as e:
-        print(f"Request failed: {e}")
-        raise HTTPException(status_code=response.status_code, detail=str(e))
+    input_ids = tokenizer(input_text, return_tensors='pt').input_ids
+    outputs = model.generate(input_ids=input_ids)
+    translated_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    return translated_text
+
+@app.route('/generate/', methods=['POST'])
+def generate():
+    data = request.json
+    prompt = data.get('prompt')
+    source_language = data.get('source_language')
+    target_language = data.get('target_language')
+
+    if not prompt or not source_language or not target_language:
+        return jsonify({'error': 'Missing required parameters'}), 400
+
+    translation = translate_text(prompt, source_language, target_language)
+    if translation is None:
+        return jsonify({'error': 'Translation model not available for given languages'}), 400
+
+    return jsonify({'text': translation})
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8000)
