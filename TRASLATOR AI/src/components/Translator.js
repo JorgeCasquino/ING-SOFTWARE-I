@@ -11,7 +11,10 @@ const Translator = () => {
     setStatus('translating...');
     setResult('');
     try {
-      const response = await axios.post('http://localhost:8000/translate', {
+      console.log('Sending data:', {
+        prompt: prompt,
+      });
+      const response = await axios.post('http://154.16.171.222:8000/translate', {
         prompt: prompt,
       });
       console.log('Response data:', response.data);

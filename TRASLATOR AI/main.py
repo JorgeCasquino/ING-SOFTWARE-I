@@ -1,7 +1,9 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from transformers import MarianTokenizer, MarianMTModel
 
 app = Flask(__name__)
+CORS(app)  # Habilitar CORS para todas las rutas
 
 # Cargar el modelo y tokenizador para inglés a español
 tokenizer = MarianTokenizer.from_pretrained('Helsinki-NLP/opus-mt-en-es')
@@ -16,6 +18,7 @@ def translate_text(input_text):
 @app.route('/translate', methods=['POST'])
 def translate():
     data = request.json
+    print(f"Received data: {data}")
     prompt = data.get('prompt')
 
     if not prompt:
@@ -25,4 +28,4 @@ def translate():
     return jsonify({'text': translation})
 
 if __name__ == '__main__':
-    app.run(host='154.16.171.222', port=8000)
+    app.run(host='0.0.0.0', port=8000)
