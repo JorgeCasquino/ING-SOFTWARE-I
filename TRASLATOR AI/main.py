@@ -25,4 +25,4 @@ def translate():
     return jsonify({'text': translation})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000)
+    app.run(host='154.16.171.222', port=8000)
