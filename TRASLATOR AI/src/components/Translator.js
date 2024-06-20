@@ -2,14 +2,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-
 const Translator = () => {
   const [prompt, setPrompt] = useState('');
   const [sourceLanguage, setSourceLanguage] = useState('English');
   const [targetLanguage, setTargetLanguage] = useState('Spanish');
   const [result, setResult] = useState('');
+  const [status, setStatus] = useState('');
 
   const handleTranslate = async () => {
+    setStatus('translating');
+    setResult('');
     try {
       const response = await axios.post('http://localhost:8000/generate/', {
         prompt: prompt,
@@ -17,8 +19,10 @@ const Translator = () => {
         target_language: targetLanguage
       });
       setResult(response.data.text);
+      setStatus('');
     } catch (error) {
       console.error('Error al traducir:', error);
+      setStatus('translation error');
     }
   };
 
@@ -67,7 +71,7 @@ const Translator = () => {
       </div>
       <button onClick={handleTranslate}>Translate</button>
       <textarea
-        value={result}
+        value={status ? status : result}
         readOnly
         placeholder="Translation result"
       />
