@@ -6,12 +6,13 @@ body {
   padding: 0;
 }
 
+.auth-container,
 .translator-container {
   background-color: #2c2c3c;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  max-width: 600px;
+  max-width: 400px;
   width: 90%;
   margin: 20px auto;
   text-align: center;
@@ -29,7 +30,7 @@ body {
   color: #ffffff;
 }
 
-textarea,
+input,
 button {
   width: calc(100% - 20px);
   padding: 10px;
@@ -48,6 +49,48 @@ button {
 
 button:hover {
   background-color: #0056b3;
+}
+
+button.google-button {
+  background-color: #db4437; /* Color de Google */
+  margin-top: 10px;
+}
+
+button.google-button:hover {
+  background-color: #c23321;
+}
+
+.register-link,
+.login-link {
+  margin-top: 20px;
+}
+
+.register-link a,
+.login-link a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.register-link a:hover,
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+.user-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.logout-button {
+  background-color: #ff4c4c;
+  color: #ffffff;
+}
+
+.logout-button:hover {
+  background-color: #ff1a1a;
 }
 
 .language-selectors {
