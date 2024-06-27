@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'material/css/materialize.min.css' %}">
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+    <style>
+        body {
+            background-color: #6241df;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            max-width: 400px;
+            background: white;
+            border-radius: 25px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .container img {
+            width: 100px;
+            margin-bottom: 20px;
+        }
+        .input-field input[type=text], .input-field input[type=password], .input-field input[type=email] {
+            border-radius: 25px;
+            background-color: #f0f0f0;
+            padding-left: 15px;
+        }
+        .input-field label {
+            left: 15px;
+        }
+        .btn {
+            border-radius: 25px;
+            background-color: #6200ea;
+            width: 100%;
+        }
+        .btn:hover {
+            background-color: #3700b3;
+        }
+        .google-btn {
+            display: inline-block;
+            background: #fff;
+            color: #757575;
+            border-radius: 25px;
+            padding: 8px 16px;
+            border: 1px solid #ddd;
+            margin-top: 10px;
+        }
+        .google-btn img {
+            width: 20px;
+            vertical-align: middle;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 0.8em;
+        }
+        .extra-options {
+            margin-top: 20px;
+        }
+        .extra-options a {
+            color: #6200ea;
+            text-decoration: none;
+        }
+        .extra-options a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="{% static 'material/images/logo.png' %}" alt="Lingua AI Logo">
+        <h4>Lingua AI</h4>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="input-field">
+                <input id="email" type="email" name="email" required>
+                <label for="email">Email</label>
+            </div>
+            <div class="input-field">
+                <input id="password" type="password" name="password" required>
+                <label for="password">Password</label>
+            </div>
+            <button type="submit" class="btn">INICIAR SESIÓN</button>
+        </form>
+        {% if error %}
+        <p style="color:red;">{{ error }}</p>
+        {% endif %}
+        <div class="extra-options">
+            <a href="{% url 'register' %}">New user? Register</a>
+            <p>Login with</p>
+            <a href="#" class="google-btn" id="google-login">
+                <img src="{% static 'material/images/google_icon.png' %}" alt="Google"> Google
+            </a>
+        </div>
+        <div class="footer">
+            <p>made in Puno, Perú</p>
+        </div>
+    </div>
+
+    <script>
+        // Configuración de Firebase
+        var firebaseConfig = {
+            apiKey: "AIzaSyDpzu9eI4FkCLyWcU5SylI3NWDLQCo3Cpc",
+            authDomain: "traductor-ia.firebaseapp.com",
+            projectId: "traductor-ia",
+            storageBucket: "traductor-ia.appspot.com",
+            messagingSenderId: "143522908534",
+            appId: "1:143522908534:web:a5dd0f0758fd3562079257",
+            measurementId: "G-KN2R5GSV3R"
+        };
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        document.getElementById('google-login').addEventListener('click', function() {
+            var provider = new firebase.auth.GoogleAuthProvider();
+            firebase.auth().signInWithPopup(provider).then(function(result) {
+                // Obtener el token de usuario
+                var token = result.credential.accessToken;
+                var user = result.user;
+
+                // Enviar el token al backend
+                fetch('/accounts/google-login/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({ token: token })
+                }).then(response => response.json())
+                  .then(data => {
+                      if (data.success) {
+                          window.location.href = '/';
+                      } else {
+                          alert('Login failed: ' + data.error);
+                      }
+                  });
+            }).catch(function(error) {
+                console.error("Error during Google login:", error);
+                alert('Google login failed: ' + error.message);
+            });
+        });
+    </script>
+</body>
+</html>
